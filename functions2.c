@@ -11,11 +11,11 @@
  * @size: Size specifier
  * Return: Number of chars printed.
  */
-int print_pointer(va_list types, char buffer[],
+int print_pointer_values(va_list types, char buffer[],
 	int flags, int width, int precision, int size)
 {
-	char extra_c = 0, padd = ' ';
-	int ind = BUFF_SIZE - 2, length = 2, padd_start = 1; /* length=2, for '0x' */
+	char extra_char = 0, padding = ' ';
+	int index = BUFF_SIZE - 2, length = 2, padding_start = 1; /* length=2, for '0x' */
 	unsigned long num_addrs;
 	char map_to[] = "0123456789abcdef";
 	void *addrs = va_arg(types, void *);
@@ -33,23 +33,23 @@ int print_pointer(va_list types, char buffer[],
 
 	while (num_addrs > 0)
 	{
-		buffer[ind--] = map_to[num_addrs % 16];
+		buffer[index--] = map_to[num_addrs % 16];
 		num_addrs /= 16;
 		length++;
 	}
 
 	if ((flags & F_ZERO) && !(flags & F_MINUS))
-		padd = '0';
+		padding = '0';
 	if (flags & F_PLUS)
-		extra_c = '+', length++;
+		extra_char = '+', length++;
 	else if (flags & F_SPACE)
-		extra_c = ' ', length++;
+		extra_char = ' ', length++;
 
-	ind++;
+	index++;
 
 	/*return (write(1, &buffer[i], BUFF_SIZE - i - 1));*/
-	return (write_pointer(buffer, ind, length,
-		width, flags, padd, extra_c, padd_start));
+	return (write_pointer(buffer, index, length,
+		width, flags, padding, extra_char, padding_start));
 }
 
 /************************* PRINT NON PRINTABLE *************************/
@@ -63,33 +63,33 @@ int print_pointer(va_list types, char buffer[],
  * @size: Size specifier
  * Return: Number of chars printed
  */
-int print_non_printable(va_list types, char buffer[],
+int print_non_printable_values(va_list types, char buffer[],
 	int flags, int width, int precision, int size)
 {
-	int i = 0, offset = 0;
-	char *str = va_arg(types, char *);
+	int m = 0, offsets = 0;
+	char *string = va_arg(types, char *);
 
 	UNUSED(flags);
 	UNUSED(width);
 	UNUSED(precision);
 	UNUSED(size);
 
-	if (str == NULL)
+	if (string == NULL)
 		return (write(1, "(null)", 6));
 
-	while (str[i] != '\0')
+	while (string[m] != '\0')
 	{
-		if (is_printable(str[i]))
-			buffer[i + offset] = str[i];
+		if (is_printable(str[m]))
+			buffer[m + offsets] = string[m];
 		else
-			offset += append_hexa_code(str[i], buffer, i + offset);
+			offsets += append_hexa_code(string[m], buffer, m + offsets);
 
-		i++;
+		m++;
 	}
 
-	buffer[i + offset] = '\0';
+	buffer[m + offsets] = '\0';
 
-	return (write(1, buffer, i + offset));
+	return (write(1, buffer, m + offsets));
 }
 
 /************************* PRINT REVERSE *************************/
@@ -104,31 +104,31 @@ int print_non_printable(va_list types, char buffer[],
  * Return: Numbers of chars printed
  */
 
-int print_reverse(va_list types, char buffer[],
+int print_reverse_values(va_list types, char buffer[],
 	int flags, int width, int precision, int size)
 {
-	char *str;
-	int i, count = 0;
+	char *string;
+	int m, count = 0;
 
 	UNUSED(buffer);
 	UNUSED(flags);
 	UNUSED(width);
 	UNUSED(size);
 
-	str = va_arg(types, char *);
+	string = va_arg(types, char *);
 
-	if (str == NULL)
+	if (string == NULL)
 	{
 		UNUSED(precision);
 
-		str = ")Null(";
+		string = ")Null(";
 	}
-	for (i = 0; str[i]; i++)
+	for (m = 0; string[m]; m++)
 		;
 
-	for (i = i - 1; i >= 0; i--)
+	for (m = m - 1; m >= 0; m--)
 	{
-		char z = str[i];
+		char z = string[m];
 
 		write(1, &z, 1);
 		count++;
@@ -146,15 +146,15 @@ int print_reverse(va_list types, char buffer[],
  * @size: Size specifier
  * Return: Numbers of chars printed
  */
-int print_rot13string(va_list types, char buffer[],
+int print_rot13string_output(va_list types, char buffer[],
 	int flags, int width, int precision, int size)
 {
-	char x;
-	char *str;
-	unsigned int i, j;
+	char n;
+	char *string;
+	unsigned int m, k;
 	int count = 0;
-	char in[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-	char out[] = "NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm";
+	char input[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+	char output[] = "NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm";
 
 	str = va_arg(types, char *);
 	UNUSED(buffer);
@@ -163,24 +163,24 @@ int print_rot13string(va_list types, char buffer[],
 	UNUSED(precision);
 	UNUSED(size);
 
-	if (str == NULL)
-		str = "(AHYY)";
-	for (i = 0; str[i]; i++)
+	if (string == NULL)
+		string = "(AHYY)";
+	for (m = 0; string[m]; m++)
 	{
-		for (j = 0; in[j]; j++)
+		for (k = 0; input[k]; k++)
 		{
-			if (in[j] == str[i])
+			if (input[k] == string[m])
 			{
-				x = out[j];
-				write(1, &x, 1);
+				n = output[k];
+				write(1, &n, 1);
 				count++;
 				break;
 			}
 		}
-		if (!in[j])
+		if (!input[k])
 		{
-			x = str[i];
-			write(1, &x, 1);
+			n = string[m];
+			write(1, &n, 1);
 			count++;
 		}
 	}
