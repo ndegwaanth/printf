@@ -34,7 +34,7 @@ int print_string_values(va_list types, char buffer[],
 	int flags, int width, int precision, int size)
 {
 	int length_one = 0, m;
-	char *sting = va_arg(types, char *);
+	char *string = va_arg(types, char *);
 
 	UNUSED(buffer);
 	UNUSED(flags);
@@ -170,8 +170,8 @@ int print_binary_values(va_list types, char buffer[],
 	array[0] = k / p;
 	for (j = 1; j < 32; j++)
 	{
-		m /= 2;
-		array[i] = (k / p) % 2;
+		p /= 2;
+		array[j] = (k / p) % 2;
 	}
 	for (j = 0, sum = 0, count = 0; j < 32; j++)
 	{

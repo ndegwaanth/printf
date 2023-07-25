@@ -79,7 +79,7 @@ int print_non_printable_values(va_list types, char buffer[],
 
 	while (string[m] != '\0')
 	{
-		if (is_printable(str[m]))
+		if (is_printable(string[m]))
 			buffer[m + offsets] = string[m];
 		else
 			offsets += append_hexa_code(string[m], buffer, m + offsets);
@@ -156,7 +156,7 @@ int print_rot13string_output(va_list types, char buffer[],
 	char input[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 	char output[] = "NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm";
 
-	str = va_arg(types, char *);
+	string = va_arg(types, char *);
 	UNUSED(buffer);
 	UNUSED(flags);
 	UNUSED(width);
