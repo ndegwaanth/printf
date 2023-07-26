@@ -19,10 +19,10 @@
 #define S_SHORT 1
 
 /**
- * struct fmt - Struct op
+ * struct fmt - Struct operation
  *
  * @fmt: The format.
- * @fn: The function associated.
+ * @fn: The function association.
  */
 struct fmt
 {
@@ -45,7 +45,7 @@ va_list list, char buffer[], int flags, int width, int precision, int size);
 
 /****************** FUNCTIONS ******************/
 
-/* Funtions to print chars and strings */
+/* Funtions to display chars together with strings */
 int print_char_alpha(va_list types, char buffer[],
 	int flags, int width, int precision, int size);
 int print_string_values(va_list types, char buffer[],
@@ -53,7 +53,7 @@ int print_string_values(va_list types, char buffer[],
 int print_percent_output(va_list types, char buffer[],
 	int flags, int width, int precision, int size);
 
-/* Functions to print numbers */
+/* Functions to display numbers */
 int print_int_values(va_list types, char buffer[],
 	int flags, int width, int precision, int size);
 int print_binary_values(va_list types, char buffer[],
@@ -70,26 +70,26 @@ int print_hexa_upper_output(va_list types, char buffer[],
 int print_hexa_values(va_list types, char map_to[],
 char buffer[], int flags, char flag_ch, int width, int precision, int size);
 
-/* Function to print non printable characters */
+/* Function to display non printable characters */
 int print_non_printable_values(va_list types, char buffer[],
 	int flags, int width, int precision, int size);
 
-/* Funcion to print memory address */
+/* Funcion to display memory address */
 int print_pointer_values(va_list types, char buffer[],
 	int flags, int width, int precision, int size);
 
-/* Funciotns to handle other specifiers */
+/* Funciotns that  handles other specifiers */
 int get_flags(const char *format, int *i);
 int get_width(const char *format, int *i, va_list list);
 int get_precision(const char *format, int *i, va_list list);
 int get_size(const char *format, int *i);
 int get_flags_values(const char *format, int *i);
 
-/*Function to print string in reverse*/
+/*Function to display string in their reverse order*/
 int print_reverse_values(va_list types, char buffer[],
 	int flags, int width, int precision, int size);
 
-/*Function to print a string in rot 13*/
+/*Function  displaying string in rot 13*/
 int print_rot13string_output(va_list types, char buffer[],
 	int flags, int width, int precision, int size);
 
